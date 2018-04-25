@@ -60,7 +60,6 @@ class Product extends Component {
   render() {
     const { product } = this.props
     const { cart } = this.state
-    console.log(this.state)
 
     return (
       <div>
