@@ -2,6 +2,8 @@ import { Component } from 'react'
 import fetch from 'isomorphic-unfetch'
 import getConfig from 'next/config'
 import Router from 'next/router'
+import Head from '../components/Head'
+import Nav from '../components/Nav'
 
 const {publicRuntimeConfig} = getConfig()
 const {CART_SERVICE} = publicRuntimeConfig
@@ -23,6 +25,22 @@ const updateQuantity = async (item, callback) => {
     })
     const data = await res.json()
     callback(data)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const deleteItem = async (item, callback) => {
+  try {
+    const res = await fetch(`${CART_SERVICE}/cartItems/${item.id}`, {
+      headers: {
+        'content-type': 'application/json'
+      },
+      method: 'DELETE',
+      mode: 'cors',
+    })
+    const data = await res
+    callback(item)
   } catch (error) {
     console.log(error)
   }
@@ -89,12 +107,30 @@ class Cart extends Component {
     })
   }
 
+  removeItem = (item) => {
+    console.log(item)
+    let items = this.state.cart.CartItems.slice()
+    items = items.filter(i => i.id !== item.id)
+    this.setState({
+      cart: {
+        ...this.state.cart,
+        CartItems: items
+      }
+    })
+  }
+
+  handleDelete = item => {
+    deleteItem(item, this.removeItem)
+  }
+
   render() {
     const { cart } = this.state
     const totalItems = cart.CartItems ? cart.CartItems.map(item => item.quantity).reduce((a, b) => a + b, 0) : 0
 
     return (
       <div>
+        <Head />
+        <Nav />
         <h1>Your Cart {`(${totalItems})`}</h1>
         { cart.CartItems && cart.CartItems.map((item, i) => {
           const { symbol, name, price, quantity } = item
@@ -105,6 +141,9 @@ class Cart extends Component {
                 <button onClick={() => this.decreaseQuantity(item) }>-</button>
                 Quantity: {quantity}
                 <button onClick={() => this.increaseQuantity(item) }>+</button>
+              </div>
+              <div>
+                <button onClick={() => this.handleDelete(item) }>Delete item</button>
               </div>
             </div>
           )

@@ -2,6 +2,8 @@ import { Component } from 'react'
 import Link from 'next/link'
 import fetch from 'isomorphic-unfetch'
 import getConfig from 'next/config'
+import Head from '../components/Head'
+import Nav from '../components/Nav'
 
 const {publicRuntimeConfig} = getConfig()
 const {PRODUCT_SERVICE, CART_SERVICE} = publicRuntimeConfig
@@ -40,8 +42,8 @@ class Index extends Component {
 
     return (
       <div>
-        <h1>The Emoji Store</h1>
-        <p>Welcome</p>
+        <Head />
+        <Nav />
         <ul>
           {products.map((product) => (
             <li key={product.id}>
@@ -51,6 +53,13 @@ class Index extends Component {
             </li>
           ))}
         </ul>
+        <style jsx>{`
+          .hero {
+            width: 100%;
+            background-color: red;
+            padding: 1em;
+          }
+        `}</style>
       </div>
     )
   }

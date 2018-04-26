@@ -2,6 +2,8 @@ import { Component } from 'react'
 import Link from 'next/link'
 import fetch from 'isomorphic-unfetch'
 import getConfig from 'next/config'
+import Head from '../components/Head'
+import Nav from '../components/Nav'
 
 const {publicRuntimeConfig} = getConfig()
 const {PRODUCT_SERVICE, CART_SERVICE} = publicRuntimeConfig
@@ -63,18 +65,22 @@ class Product extends Component {
 
     return (
       <div>
-        <h1>The Product Page</h1>
-        <p>{product.name} {product.symbol} - {product.price}</p>
-        {
-           cart.CartItems && cart.CartItems.map(item => item.itemId).includes(product.id)
-          ?
-            <button disabled={true}>Already Added</button>
-          :
-            <button onClick={() => this.addToCart(product)}>Add to Cart</button>
-        }
-        <Link href={`/cart`}>
-          <a>{`View Cart`}</a>
-        </Link>
+        <Head />
+        <Nav />
+        <div>
+          <h1>The Product Page</h1>
+          <p>{product.name} {product.symbol} - {product.price}</p>
+          {
+             cart.CartItems && cart.CartItems.map(item => item.itemId).includes(product.id)
+            ?
+              <button disabled={true}>Already Added</button>
+            :
+              <button onClick={() => this.addToCart(product)}>Add to Cart</button>
+              }
+          <Link href={`/cart`}>
+            <a>{`View Cart`}</a>
+          </Link>
+        </div>
       </div>
     )
   }
