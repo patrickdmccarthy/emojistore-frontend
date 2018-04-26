@@ -4,68 +4,46 @@ import fetch from 'isomorphic-unfetch'
 import getConfig from 'next/config'
 import MdShoppingCart from 'react-icons/lib/md/shopping-cart'
 
+import CartProvider from './CartProvider'
+import HeaderCart from './HeaderCart'
+
 const {publicRuntimeConfig} = getConfig()
 const {CART_SERVICE} = publicRuntimeConfig
 
-class Nav extends Component {
-  constructor () {
-    super()
-    this.state = {
-      cart: {}
-    }
-  }
+export default ({cart}) => {
+  const totalItems =  cart && cart.CartItems ? cart.CartItems.map(item => item.quantity).reduce((a, b) => a + b, 0) : 0
 
-  componentDidMount = async () => {
-    this.fetchCart()
-  }
+  return (<div className={'nav-wrapper'}>
+    <Link href={`/`}>
+      <a>
+        <h1>Socks Unlimited</h1>
+      </a>
+    </Link>
 
-  fetchCart = async () => {
-    const cartId = localStorage.getItem("cartId")
+    <div className={'shopping-cart-container'}>
+        <Link href={`/cart`}>
+          <a>
+            <MdShoppingCart size={25}/>
+            <span>{ totalItems }</span>
+          </a>
+        </Link>
+    </div>
 
-    const res = await fetch(`${CART_SERVICE}/carts/${cartId}`)
-    const data = await res.json()
+    <style jsx>{`
+      .nav-wrapper {
+        width: 100%;
+        background-color: gray;
+        padding: 1em 3em;
+        display: flex;
+        justify-content: space-between;
+      }
 
-    this.setState({
-      cart: data
-    })
-  }
-
-  render() {
-    const { cart } = this.state
-    const totalItems = cart.CartItems ? cart.CartItems.map(item => item.quantity).reduce((a, b) => a + b, 0) : 0
-
-    return (
-      <div className={'nav-wrapper'}>
-        <h1>McSocks</h1>
-
-        <div className={'shopping-cart-container'}>
-          <Link href={`/cart`}>
-            <div>
-              <MdShoppingCart size={25}/>
-              <span>{ totalItems }</span>
-            </div>
-          </Link>
-        </div>
-
-        <style jsx>{`
-          .nav-wrapper {
-            width: 100%;
-            background-color: gray;
-            padding: 1em 3em;
-            display: flex;
-            justify-content: space-between;
-          }
-
-          .shopping-cart-container {
-            display: flex;
-            align-items: center;
-            margin-right: 2em;
-            cursor: pointer;
-          }
-        `}</style>
-      </div>
-    )
-  }
-}
-
-export default Nav
+      .shopping-cart-container {
+        display: flex;
+        align-items: center;
+        margin-right: 2em;
+        cursor: pointer;
+      }
+    `}</style>
+</div>
+)}
