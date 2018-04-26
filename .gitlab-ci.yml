@@ -1,0 +1,39 @@
+  - docker-build
+  - docker-lint
+  - docker-deploy
+
+docker-lint:
+  stage: docker-lint
+  before_script:
+    - docker version
+  script:
+    - docker run --rm --env CODECLIMATE_CODE="$PWD" -v "$PWD":/code -v /var/run/docker.sock:/var/run/docker.sock -v /tmp/cc:/tmp/cc codeclimate/codeclimate analyze
+    - docker run --rm -v "$PWD:/app" node:alpine /bin/sh -c "cd /app; npm install"
+    - docker run --rm -e "SNYK_TOKEN=$SNYK_TOKEN" -v "$PWD:/project" snyk/snyk-cli:npm test
+  allow_failure: true
+  tags:
+    - $PROJECT
+
+docker-build:
+  stage: docker-build
+  before_script:
+    - docker version
+  script:
+    - docker build -t $DOCKER_REPO_URL:${CI_COMMIT_SHA:0:8} .
+    - $(aws ecr get-login --no-include-email --region=$REGION)
+    - docker push $DOCKER_REPO_URL:${CI_COMMIT_SHA:0:8}
+  tags:
+    - $PROJECT
+  only:
+    - master
+
+docker-deploy:
+  stage: docker-deploy
+  before_script:
+    - docker version
+  script:
+    - ecs-deploy -t 300 -r $REGION -m 0 -M 200 -c $PROJECT -n $SERVICE -i $DOCKER_REPO_URL:${CI_COMMIT_SHA:0:8}
+  tags:
+    - $PROJECT
+  only:
+    - master
