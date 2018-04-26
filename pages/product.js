@@ -32,13 +32,13 @@ class Product extends Component {
   }
 
   addToCart = async (product) => {
-    const { price, name, symbol, id } = product
+    const { price, name, img, id } = product
     const cartId = localStorage.getItem("cartId")
     const cartItem = {
       id,
       price,
       name,
-      symbol,
+      img,
       cartId
     }
 
@@ -67,20 +67,43 @@ class Product extends Component {
       <div>
         <Head />
         <Nav />
-        <div>
-          <h1>The Product Page</h1>
-          <p>{product.name} {product.symbol} - {product.price}</p>
-          {
-             cart.CartItems && cart.CartItems.map(item => item.itemId).includes(product.id)
-            ?
-              <button disabled={true}>Already Added</button>
-            :
-              <button onClick={() => this.addToCart(product)}>Add to Cart</button>
-              }
-          <Link href={`/cart`}>
-            <a>{`View Cart`}</a>
-          </Link>
+        <div className={"container"}>
+          <div className={"image-container"}>
+            <img src={product.img.medium} />
+          </div>
+          <div className={"details-container"}>
+            <h1>{product.name}</h1>
+            <p>${product.price}</p>
+            <p>{product.text}</p>
+            <div>{
+               cart.CartItems && cart.CartItems.map(item => item.itemId).includes(product.id)
+              ?
+                <button disabled={true}>Already Added</button>
+              :
+                <button onClick={() => this.addToCart(product)}>Add to Cart</button>
+                }
+              </div>
+            </div>
         </div>
+        <style jsx>{`
+          .container {
+            display: flex;
+            padding: 3em;
+          }
+
+          .image-container {
+            width: 50%;
+          }
+
+          .details-container {
+            width: 50%;
+            padding-left: 8%;
+            padding-right: 8%;
+          }
+          img {
+            max-width: 100%;
+          }
+        `}</style>
       </div>
     )
   }

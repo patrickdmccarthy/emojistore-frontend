@@ -44,20 +44,37 @@ class Index extends Component {
       <div>
         <Head />
         <Nav />
-        <ul>
+        <div className={"product-container"}>
           {products.map((product) => (
-            <li key={product.id}>
+            <div key={product.id} className={"product"}>
               <Link as={`/product/${product.id}`} href={`/product?id=${product.id}`}>
-                <a>{product.name}</a>
+                <div>
+                  <div>
+                    <img src={product.img.small} />
+                  </div>
+                  <a>{product.name}</a>
+                </div>
               </Link>
-            </li>
+            </div>
           ))}
-        </ul>
+        </div>
         <style jsx>{`
           .hero {
             width: 100%;
             background-color: red;
             padding: 1em;
+          }
+
+          .product-container {
+            padding: 5%;
+            display: flex;
+            flex-wrap: wrap;
+          }
+          .product {
+            width: 33%;
+            text-align: center;
+            margin-bottom: 2em;
+            cursor: pointer;
           }
         `}</style>
       </div>

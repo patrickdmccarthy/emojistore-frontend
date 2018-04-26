@@ -133,10 +133,11 @@ class Cart extends Component {
         <Nav />
         <h1>Your Cart {`(${totalItems})`}</h1>
         { cart.CartItems && cart.CartItems.map((item, i) => {
-          const { symbol, name, price, quantity } = item
+          const { img, name, price, quantity } = item
           return (
             <div key={i}>
-              <span>{symbol} {name} - {`$${price}`}</span>
+              <img src={img.small} />
+              <span>{name} - {`$${price}`}</span>
               <div>
                 <button onClick={() => this.decreaseQuantity(item) }>-</button>
                 Quantity: {quantity}
