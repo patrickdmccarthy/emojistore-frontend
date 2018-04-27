@@ -6,13 +6,13 @@ export default () =>
       <title>McSocks</title>
       <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet" />
-      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-65326612-2"></script>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-118367130-1"></script>
       <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments)}
         gtag('js', new Date());
 
-        gtag('config', 'UA-65326612-2');
+        gtag('config', 'UA-118367130-1');
       </script>
     </Head>
     <style>{`
