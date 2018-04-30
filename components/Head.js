@@ -1,18 +1,7 @@
 import { Component } from 'react'
 import Head from 'next/head'
-import { initGA, logPageView } from '../utils/analytics'
 
-class AppHead extends Component {
-  componentDidMount () {
-    if (!window.GA_INITIALIZED) {
-      initGA()
-      window.GA_INITIALIZED = true
-    }
-    logPageView()
-  }
-
-  render() {
-    return(
+export default () => (
       <div>
         <Head>
           <title>McSocks</title>
@@ -28,9 +17,5 @@ class AppHead extends Component {
             font-family: 'Roboto', sans-serif;
           }
         `}</style>
-        </Head>
-      </div>)
-  }
-}
-
-export default AppHead
+    </Head>
+  </div>)
