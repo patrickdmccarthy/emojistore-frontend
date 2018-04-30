@@ -1,6 +1,6 @@
 export default ({decreaseQuantity, increaseQuantity, handleDelete, img, name, price, quantity}) => (
   <div className={'container'}>
-    <div className={'section img-wrapper'}>
+    <div className={'section'}>
       <img src={img.small} />
     </div>
     <div className={'section'}>{name}</div>
@@ -10,7 +10,7 @@ export default ({decreaseQuantity, increaseQuantity, handleDelete, img, name, pr
       Quantity: {quantity}
       <button onClick={increaseQuantity}>+</button>
     </div>
-    <div className={'section'}>
+    <div className={'section delete-wrapper'}>
       <button onClick={handleDelete}>Delete item</button>
     </div>
     <style jsx>{`
@@ -26,6 +26,9 @@ export default ({decreaseQuantity, increaseQuantity, handleDelete, img, name, pr
         display: flex;
         justify-content: center;
         align-items: center;
+      }
+      .delete-wrapper {
+        justify-content: flex-end;
       }
     `}</style>
   </div>

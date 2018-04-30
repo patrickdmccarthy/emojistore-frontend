@@ -2,8 +2,10 @@ import { Component } from 'react'
 import Link from 'next/link'
 import fetch from 'isomorphic-unfetch'
 import getConfig from 'next/config'
+
 import Layout from '../components/Layout'
 import Nav from '../components/Nav'
+import CartProvider from '../components/CartProvider'
 
 const {publicRuntimeConfig} = getConfig()
 const {PRODUCT_SERVICE, CART_SERVICE} = publicRuntimeConfig
@@ -43,40 +45,42 @@ class Index extends Component {
     return (
       <div>
         <Layout>
-          <Nav />
-          <div className={"product-container"}>
-            {products.map((product) => (
-              <div key={product.id} className={"product"}>
-                <Link as={`/product/${product.id}`} href={`/product?id=${product.id}`}>
-                  <div>
+          <CartProvider>
+            <Nav />
+            <div className={"product-container"}>
+              {products.map((product) => (
+                <div key={product.id} className={"product"}>
+                  <Link as={`/product/${product.id}`} href={`/product?id=${product.id}`}>
                     <div>
-                      <img src={product.img.small} />
+                      <div>
+                        <img src={product.img.small} />
+                      </div>
+                      <a>{product.name}</a>
                     </div>
-                    <a>{product.name}</a>
-                  </div>
-                </Link>
-              </div>
-            ))}
-          </div>
-          <style jsx>{`
-            .hero {
-              width: 100%;
-              background-color: red;
-              padding: 1em;
-            }
+                  </Link>
+                </div>
+              ))}
+            </div>
+            <style jsx>{`
+              .hero {
+                width: 100%;
+                background-color: red;
+                padding: 1em;
+              }
 
-            .product-container {
-              padding: 5%;
-              display: flex;
-              flex-wrap: wrap;
-            }
-            .product {
-              width: 33%;
-              text-align: center;
-              margin-bottom: 2em;
-              cursor: pointer;
-            }
-          `}</style>
+              .product-container {
+                padding: 5%;
+                display: flex;
+                flex-wrap: wrap;
+              }
+              .product {
+                width: 33%;
+                text-align: center;
+                margin-bottom: 2em;
+                cursor: pointer;
+              }
+            `}</style>
+          </CartProvider>
         </Layout>
       </div>
     )

@@ -2,7 +2,6 @@ import { Component } from 'react'
 
 import CartItem from './CartItem'
 import { updateQuantity, deleteItem, goToCheckout } from '../services/cart'
-import { totalItems } from '../lib/helpers'
 
 export default class CartPage extends Component {
   increaseQuantity = (item) => {
@@ -21,11 +20,11 @@ export default class CartPage extends Component {
 
   render() {
   const {fetchCart, updateItemState, removeItem, cart} = this.props
-  const totalPrice = cart.CartItems.map(item => item.price * item.quantity).reduce((a, b) => a + b, 0)
+  const totalPrice = cart && cart.CartItems ? cart.CartItems.map(item => item.price * item.quantity).reduce((a, b) => a + b, 0) : null
 
   return (
     <div className={'container'}>
-      <h1>Your Cart {`(${totalItems(cart)})`}</h1>
+      <h1>Your Cart</h1>
       { cart.CartItems && cart.CartItems.map((item, i) => (
         <CartItem
           decreaseQuantity={ () => this.decreaseQuantity(item) }
@@ -38,7 +37,7 @@ export default class CartPage extends Component {
       { cart.CartItems &&
         <div className={'checkout-container'}>
           <p>Total: ${ totalPrice }</p>
-          <button onClick={() => checkout()}>Checkout</button>
+          <button onClick={() => goToCheckout()}>Checkout</button>
         </div>
       }
       <style jsx>{`

@@ -38,6 +38,6 @@ export const deleteItem = async (item, callback) => {
   }
 }
 
-const goToCheckout = () => {
+export const goToCheckout = () => {
   Router.push('/checkout')
 }
