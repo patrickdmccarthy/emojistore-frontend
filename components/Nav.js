@@ -6,14 +6,13 @@ import MdShoppingCart from 'react-icons/lib/md/shopping-cart'
 
 import CartProvider from './CartProvider'
 import HeaderCart from './HeaderCart'
+import { totalItems } from '../lib/helpers'
 
 const {publicRuntimeConfig} = getConfig()
 const {CART_SERVICE} = publicRuntimeConfig
 
-export default ({cart}) => {
-  const totalItems =  cart && cart.CartItems ? cart.CartItems.map(item => item.quantity).reduce((a, b) => a + b, 0) : 0
-
-  return (<div className={'nav-wrapper'}>
+export default ({cart}) => (
+  <div className={'nav-wrapper'}>
     <Link href={`/`}>
       <a>
         <h1>Socks Unlimited</h1>
@@ -24,7 +23,7 @@ export default ({cart}) => {
         <Link href={`/cart`}>
           <a>
             <MdShoppingCart size={25}/>
-            <span>{ totalItems }</span>
+            <span>{ totalItems(cart) }</span>
           </a>
         </Link>
     </div>
@@ -45,5 +44,5 @@ export default ({cart}) => {
         cursor: pointer;
       }
     `}</style>
-</div>
-)}
+  </div>
+)
