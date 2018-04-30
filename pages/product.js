@@ -1,21 +1,22 @@
 import Link from 'next/link'
 import fetch from 'isomorphic-unfetch'
 import getConfig from 'next/config'
-import Head from '../components/Head'
 import Nav from '../components/Nav'
 import ProductPage from '../components/ProductPage'
 import CartProvider from '../components/CartProvider'
+import Layout from '../components/Layout'
 
 const {publicRuntimeConfig} = getConfig()
 const {PRODUCT_SERVICE, CART_SERVICE} = publicRuntimeConfig
 
 const Product = ({ product }) => (
   <div>
-    <Head />
-    <CartProvider>
-      <Nav />
-      <ProductPage product={product}/>
-    </CartProvider>
+    <Layout>
+      <CartProvider>
+        <Nav />
+        <ProductPage product={product}/>
+      </CartProvider>
+    </Layout>
   </div>
 )
 

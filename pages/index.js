@@ -2,7 +2,7 @@ import { Component } from 'react'
 import Link from 'next/link'
 import fetch from 'isomorphic-unfetch'
 import getConfig from 'next/config'
-import Head from '../components/Head'
+import Layout from '../components/Layout'
 import Nav from '../components/Nav'
 
 const {publicRuntimeConfig} = getConfig()
@@ -42,41 +42,42 @@ class Index extends Component {
 
     return (
       <div>
-        <Head />
-        <Nav />
-        <div className={"product-container"}>
-          {products.map((product) => (
-            <div key={product.id} className={"product"}>
-              <Link as={`/product/${product.id}`} href={`/product?id=${product.id}`}>
-                <div>
+        <Layout>
+          <Nav />
+          <div className={"product-container"}>
+            {products.map((product) => (
+              <div key={product.id} className={"product"}>
+                <Link as={`/product/${product.id}`} href={`/product?id=${product.id}`}>
                   <div>
-                    <img src={product.img.small} />
+                    <div>
+                      <img src={product.img.small} />
+                    </div>
+                    <a>{product.name}</a>
                   </div>
-                  <a>{product.name}</a>
-                </div>
-              </Link>
-            </div>
-          ))}
-        </div>
-        <style jsx>{`
-          .hero {
-            width: 100%;
-            background-color: red;
-            padding: 1em;
-          }
+                </Link>
+              </div>
+            ))}
+          </div>
+          <style jsx>{`
+            .hero {
+              width: 100%;
+              background-color: red;
+              padding: 1em;
+            }
 
-          .product-container {
-            padding: 5%;
-            display: flex;
-            flex-wrap: wrap;
-          }
-          .product {
-            width: 33%;
-            text-align: center;
-            margin-bottom: 2em;
-            cursor: pointer;
-          }
-        `}</style>
+            .product-container {
+              padding: 5%;
+              display: flex;
+              flex-wrap: wrap;
+            }
+            .product {
+              width: 33%;
+              text-align: center;
+              margin-bottom: 2em;
+              cursor: pointer;
+            }
+          `}</style>
+        </Layout>
       </div>
     )
   }

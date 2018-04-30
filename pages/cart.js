@@ -4,13 +4,15 @@ import Head from '../components/Head'
 import Nav from '../components/Nav'
 import CartProvider from '../components/CartProvider'
 import CartPage from '../components/CartPage'
+import Layout from '../components/Layout'
 
 export default () => (
   <div>
-    <Head />
-    <CartProvider>
-      <Nav />
-      <CartPage />
-    </CartProvider>
+    <Layout>
+      <CartProvider>
+        <Nav />
+        <CartPage />
+      </CartProvider>
+    </Layout>
   </div>
 )
