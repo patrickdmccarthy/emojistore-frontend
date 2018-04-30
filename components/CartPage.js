@@ -1,7 +1,7 @@
 import { Component } from 'react'
 
 import CartItem from './CartItem'
-import { updateQuantity, deleteItem, checkout } from '../services/cart'
+import { updateQuantity, deleteItem, goToCheckout } from '../services/cart'
 import { totalItems } from '../lib/helpers'
 
 export default class CartPage extends Component {
